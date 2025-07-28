@@ -1,0 +1,100 @@
+# Development Workflow
+
+## Project Setup
+1. **Install Dependencies**: `yarn install`
+2. **Database Setup**: Configure PostgreSQL and run Prisma migrations
+3. **Environment Variables**: Set up `.env.local` with required variables
+4. **Development Server**: `yarn dev` (runs Next.js + LangChain server)
+
+## File Structure Guidelines
+```
+app/
+├── (chat)/           # End user chat interface
+│   ├── page.tsx
+│   └── layout.tsx
+├── (admin)/          # Support tech interface
+│   ├── page.tsx
+│   ├── tickets/
+│   │   ├── page.tsx
+│   │   └── [id]/
+│   │       └── page.tsx
+│   └── layout.tsx
+├── api/
+│   └── tickets/
+│       ├── route.ts
+│       └── [id]/
+│           └── route.ts
+└── layout.tsx
+
+components/
+├── ui/               # shadcn/ui components
+├── chat/             # Chat interface components
+├── tickets/          # Ticket management components
+└── shared/           # Shared components
+
+lib/
+├── prisma.ts         # Prisma client
+├── utils.ts          # Utility functions
+└── types.ts          # TypeScript types
+```
+
+## Code Quality Standards
+- **TypeScript**: Strict mode enabled, proper type definitions
+- **ESLint**: Follow existing configuration in [.eslintrc.js](mdc:.eslintrc.js)
+- **Prettier**: Use existing configuration in [prettier.config.js](mdc:prettier.config.js)
+- **Testing**: Write tests for critical functionality
+- **Documentation**: Add JSDoc comments for complex functions
+
+## Git Workflow
+- Use conventional commits (see [git-conventional-commits.yaml](mdc:git-conventional-commits.yaml))
+- Create feature branches for new functionality
+- Write descriptive commit messages
+- Keep commits focused and atomic
+
+## Performance Considerations
+- Use Next.js 14 app router features
+- Implement proper loading states
+- Optimize database queries
+- Use React.memo for expensive components
+- Implement proper error boundaries
+
+## Testing Strategy
+- Unit tests for utility functions
+- Component tests for UI components
+- Integration tests for API endpoints
+- E2E tests for critical user flows (see [e2e/](mdc:e2e/))
+
+## Deployment Preparation
+- Build optimization (see [next.config.mjs](mdc:next.config.mjs))
+- Environment variable management
+- Database migration strategy
+- Error monitoring setup
+- Performance monitoring
+
+## Development Commands
+```bash
+# Development
+yarn dev              # Start development servers
+yarn build            # Build for production
+yarn start            # Start production server
+
+# Code Quality
+yarn lint             # Run ESLint
+yarn lint:fix         # Fix ESLint issues
+yarn prettier         # Check Prettier
+yarn prettier:fix     # Fix Prettier issues
+
+# Testing
+yarn test             # Run unit tests
+yarn e2e:headless     # Run E2E tests
+yarn e2e:ui           # Run E2E tests with UI
+
+# Database
+npx prisma generate   # Generate Prisma client
+npx prisma migrate dev # Run migrations
+npx prisma studio     # Open Prisma Studio
+```
+description:
+globs:
+alwaysApply: false
+---

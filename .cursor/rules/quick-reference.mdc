@@ -1,0 +1,130 @@
+# Quick Reference
+
+## Essential Dependencies to Add
+```bash
+# Database
+yarn add prisma @prisma/client
+yarn add -D @types/pg
+
+# AI/LLM
+yarn add @langchain/openai @langchain/core
+
+# Additional UI (if needed)
+yarn add @radix-ui/react-table @radix-ui/react-textarea
+```
+
+## Key Environment Variables
+```env
+# Database
+DATABASE_URL="postgresql://username:password@localhost:5432/support_app"
+
+# AI/LLM
+OPENAI_API_KEY="your-openai-api-key"
+
+# App
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+```
+
+## Core File Structure
+```
+app/
+├── (chat)/page.tsx          # End user chat interface
+├── (admin)/page.tsx         # Support tech dashboard
+├── api/tickets/route.ts     # Ticket API endpoints
+└── layout.tsx               # Root layout
+
+components/
+├── ui/                      # shadcn/ui components
+├── chat/ChatInterface.tsx   # Chat component
+└── tickets/TicketList.tsx   # Ticket management
+
+lib/
+├── prisma.ts               # Prisma client
+├── types.ts                # TypeScript types
+└── utils.ts                # Utility functions
+```
+
+## Database Schema (Prisma)
+```prisma
+model Ticket {
+  id          String   @id @default(cuid())
+  userName    String
+  title       String
+  description String
+  category    String
+  status      TicketStatus @default(OPEN)
+  priority    Priority @default(MEDIUM)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  conversationHistory Json?
+  techNotes   String?
+  assignedTo  String?
+}
+```
+
+## API Routes Structure
+```typescript
+// app/api/tickets/route.ts
+export async function GET() {
+  // List tickets with filters
+}
+
+export async function POST() {
+  // Create new ticket
+}
+
+// app/api/tickets/[id]/route.ts
+export async function GET(request: Request, { params }: { params: { id: string } }) {
+  // Get specific ticket
+}
+
+export async function PUT(request: Request, { params }: { params: { id: string } }) {
+  // Update ticket
+}
+```
+
+## Chat Interface Components
+```typescript
+// components/chat/ChatInterface.tsx
+interface ChatMessage {
+  id: string
+  role: 'user' | 'assistant'
+  content: string
+  timestamp: Date
+}
+
+// components/chat/MessageBubble.tsx
+// components/chat/InputArea.tsx
+// components/chat/AIAssistant.tsx
+```
+
+## Ticket Management Components
+```typescript
+// components/tickets/TicketList.tsx
+// components/tickets/TicketCard.tsx
+// components/tickets/TicketDetail.tsx
+// components/tickets/TicketFilters.tsx
+```
+
+## Key Implementation Notes
+- Use `@radix-ui/react-scroll-area` for chat messages
+- Implement proper loading states with `useState`
+- Use `zod` for API input validation
+- Store conversation history as JSON in database
+- Implement optimistic updates for better UX
+- Add proper error boundaries
+- Use React Query or SWR for data fetching (optional)
+
+## Development Commands
+```bash
+yarn dev                    # Start development
+npx prisma generate        # Generate Prisma client
+npx prisma migrate dev     # Run migrations
+npx prisma studio          # Database GUI
+yarn lint                  # Check code quality
+yarn test                  # Run tests
+```
+description:
+globs:
+alwaysApply: false
+---

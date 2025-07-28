@@ -1,0 +1,63 @@
+# UI Component Guidelines
+
+## shadcn/ui Components
+Use shadcn/ui components for consistent, accessible UI. Available components from [package.json](mdc:package.json):
+
+### Chat Interface Components
+- `@radix-ui/react-dialog` - Modal dialogs
+- `@radix-ui/react-scroll-area` - Scrollable chat area
+- `@radix-ui/react-form` - Form handling
+- `@radix-ui/react-label` - Form labels
+- `@radix-ui/react-select` - Category selection
+- `@radix-ui/react-tabs` - Tab navigation
+
+### Ticket Management Components
+- `@radix-ui/react-accordion` - Collapsible ticket details
+- `@radix-ui/react-dropdown-menu` - Action menus
+- `@radix-ui/react-checkbox` - Status toggles
+- `@radix-ui/react-switch` - Quick toggles
+- `@radix-ui/react-tooltip` - Helpful hints
+
+### Layout Components
+- `@radix-ui/react-popover` - Context menus
+- `@radix-ui/react-radio-group` - Option selection
+- `@radix-ui/react-slider` - Progress indicators
+- `@radix-ui/react-toggle-group` - Filter controls
+
+## Tailwind CSS Guidelines
+- Use utility classes for styling
+- Follow responsive design patterns
+- Use semantic color classes (primary, secondary, etc.)
+- Implement dark mode support where appropriate
+- Use consistent spacing scale
+
+## Component Structure
+```tsx
+// Example component structure
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+
+interface ComponentProps {
+  className?: string
+  // other props
+}
+
+export function Component({ className, ...props }: ComponentProps) {
+  return (
+    <div className={cn("base-styles", className)}>
+      {/* component content */}
+    </div>
+  )
+}
+```
+
+## Accessibility
+- Use semantic HTML elements
+- Implement proper ARIA labels
+- Ensure keyboard navigation
+- Maintain color contrast ratios
+- Test with screen readers
+description:
+globs:
+alwaysApply: false
+---

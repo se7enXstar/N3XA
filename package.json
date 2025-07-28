@@ -65,7 +65,7 @@
     "@babel/plugin-transform-optional-chaining": "^7.23.4",
     "@babel/plugin-transform-react-jsx": "^7.23.4",
     "@jest/globals": "^29.7.0",
-    "@opentelemetry/websev": "1.7.0",
+    "@opentelemetry/web": "^1.6.1",
     "@opentelemetry/resources": "1.18.1",
     "@opentelemetry/sdk-node": "0.45.1",
     "@opentelemetry/sdk-trace-node": "1.18.1",
