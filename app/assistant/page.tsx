@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Loading } from "@/components/ui/loading"
 import { Typewriter } from "@/components/ui/typewriter"
+import { HTMLTypewriter } from "@/components/ui/html-typewriter"
 import { Send, Paperclip } from "lucide-react"
 import { formatTimestamp } from "../../lib/utils"
 import Header from "@/components/Header"
@@ -62,10 +63,7 @@ export default function AssistantPage() {
   const [buttons, setButtons] = useState<string[]>([])
   const [typingMessages, setTypingMessages] = useState<Set<string>>(new Set())
 
-  // Debug button state
-  useEffect(() => {
-    console.log('Button state changed:', { showButtons, buttons, buttonsLength: buttons.length })
-  }, [showButtons, buttons])
+
 
   const handleSendMessage = async (messageText?: string, event?: React.MouseEvent) => {
     if (event) {
@@ -91,12 +89,6 @@ export default function AssistantPage() {
     setIsLoading(true)
 
     try {
-      console.log('Sending to API:', {
-        message: messageToSend,
-        ticketData,
-        messagesCount: messages.length
-      })
-      
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
@@ -120,8 +112,6 @@ export default function AssistantPage() {
         buttons?: string[]
         reset?: boolean
       }
-      
-      console.log('Received from API:', data)
       
       // Handle reset
       if (data.reset) {
@@ -192,35 +182,35 @@ export default function AssistantPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header currentPage="assistant" />
-      <div className="flex h-screen pt-16">
-        {/* Left Column - Ticket Preview */}
-        <div className="w-[30%] bg-gray-900 p-6 overflow-y-auto">
+      <div className="flex flex-col lg:flex-row h-screen pt-16">
+        {/* Left Column - Ticket Preview (Hidden on mobile, shown on desktop) */}
+        <div className="hidden lg:block lg:w-[30%] bg-gray-900 p-4 lg:p-6 overflow-y-auto">
           <div className="max-w-md mx-auto">
-            <h2 className="text-2xl font-bold text-white mb-6">Ticket Preview</h2>
+            <h2 className="text-xl lg:text-2xl font-bold text-white mb-4 lg:mb-6">Ticket Preview</h2>
             
             {/* Title */}
-            <div className="mb-6">
+            <div className="mb-4 lg:mb-6">
               <div className="flex items-center mb-2">
-                <h3 className="text-white font-semibold">Title</h3>
+                <h3 className="text-white font-semibold text-sm lg:text-base">Title</h3>
                 {isLoading && <Loading size="sm" className="ml-2 text-purple-400" />}
               </div>
               <Input
                 placeholder="Title will appear here..."
                 value={ticketData.title}
                 readOnly
-                className="bg-gray-800 border-gray-700 text-white placeholder-gray-400"
+                className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 text-sm"
               />
             </div>
 
             {/* Categories */}
-            <div className="mb-6">
-              <h3 className="text-white font-semibold mb-2">Related Categories</h3>
-              <div className="flex flex-wrap gap-2">
+            <div className="mb-4 lg:mb-6">
+              <h3 className="text-white font-semibold mb-2 text-sm lg:text-base">Related Categories</h3>
+              <div className="flex flex-wrap gap-1 lg:gap-2">
                 {CATEGORIES.map((category) => (
                   <Badge
                     key={category}
                     variant={ticketData.category === category ? "default" : "secondary"}
-                    className={`${
+                    className={`text-xs ${
                       ticketData.category === category 
                         ? "bg-purple-600 text-white" 
                         : "bg-gray-700 text-gray-300"
@@ -233,44 +223,44 @@ export default function AssistantPage() {
             </div>
 
             {/* Description */}
-            <div className="mb-6">
+            <div className="mb-4 lg:mb-6">
               <div className="flex items-center mb-2">
-                <h3 className="text-white font-semibold">Description</h3>
+                <h3 className="text-white font-semibold text-sm lg:text-base">Description</h3>
                 {isLoading && <Loading size="sm" className="ml-2 text-purple-400" />}
               </div>
               <Textarea
                 placeholder="Description will appear here based on the selected title and category..."
                 value={ticketData.description}
                 readOnly
-                className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 min-h-[100px]"
+                className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 min-h-[80px] lg:min-h-[100px] text-sm"
               />
             </div>
 
             {/* Summary */}
-            <div className="mb-6">
+            <div className="mb-4 lg:mb-6">
               <div className="flex items-center mb-2">
-                <h3 className="text-white font-semibold">Summary</h3>
+                <h3 className="text-white font-semibold text-sm lg:text-base">Summary</h3>
                 {isLoading && <Loading size="sm" className="ml-2 text-purple-400" />}
               </div>
               <Textarea
                 placeholder="Summary will be generated here..."
                 value={ticketData.summary || ""}
                 readOnly
-                className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 min-h-[200px]"
+                className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 min-h-[150px] lg:min-h-[200px] text-sm"
               />
             </div>
 
             {/* Additional Information */}
             {ticketData.additionalInfo && (
-              <div className="mb-6">
+              <div className="mb-4 lg:mb-6">
                 <div className="flex items-center mb-2">
-                  <h3 className="text-white font-semibold">Additional Information</h3>
+                  <h3 className="text-white font-semibold text-sm lg:text-base">Additional Information</h3>
                 </div>
                 <Textarea
                   placeholder="Additional information will appear here..."
                   value={ticketData.additionalInfo}
                   readOnly
-                  className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 min-h-[60px]"
+                  className="bg-gray-800 border-gray-700 text-white placeholder-gray-400 min-h-[50px] lg:min-h-[60px] text-sm"
                 />
               </div>
             )}
@@ -278,17 +268,17 @@ export default function AssistantPage() {
         </div>
 
         {/* Right Column - Chat Interface */}
-        <div className="w-[70%] bg-white flex flex-col">
+        <div className="w-full lg:w-[70%] bg-white flex flex-col">
           {/* Chat Header */}
-          <div className="border-b border-gray-200 p-4">
+          <div className="border-b border-gray-200 p-3 lg:p-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">AI</span>
+              <div className="flex items-center space-x-2 lg:space-x-3">
+                <div className="w-8 h-8 lg:w-10 lg:h-10 bg-purple-600 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-xs lg:text-sm">AI</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">AI Assistant</h3>
-                  <p className="text-sm text-gray-500">
+                  <h3 className="font-semibold text-gray-900 text-sm lg:text-base">AI Assistant</h3>
+                  <p className="text-xs lg:text-sm text-gray-500">
                     {isLoading ? "Processing..." : "Ready to help"}
                   </p>
                 </div>
@@ -297,27 +287,28 @@ export default function AssistantPage() {
           </div>
 
           {/* Chat Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div className="flex-1 overflow-y-auto p-3 lg:p-4 space-y-3 lg:space-y-4">
             {messages.map((message) => (
               <div
                 key={message.id}
                 className={`flex ${message.type === "user" ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                  className={`max-w-[80%] sm:max-w-xs lg:max-w-md px-3 lg:px-4 py-2 rounded-lg ${
                     message.type === "user"
                       ? "bg-purple-600 text-white"
                       : "bg-gray-100 text-gray-900"
                   }`}
                 >
                   {message.type === "assistant" ? (
-                    <Typewriter 
-                      text={message.content} 
+                    <HTMLTypewriter 
+                      html={message.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\n/g, '<br>')}
                       speed={100}
-                      className="text-sm whitespace-pre-wrap"
+                      className="text-xs lg:text-sm"
                     />
                   ) : (
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    <p className="text-xs lg:text-sm whitespace-pre-wrap">{message.content}</p>
                   )}
                   <p className="text-xs opacity-70 mt-1">
                     {formatTimestamp(message.timestamp)}
@@ -327,7 +318,7 @@ export default function AssistantPage() {
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-gray-100 text-gray-900 px-4 py-2 rounded-lg">
+                <div className="bg-gray-100 text-gray-900 px-3 lg:px-4 py-2 rounded-lg">
                   <Loading size="sm" className="text-gray-600" />
                 </div>
               </div>
@@ -340,7 +331,7 @@ export default function AssistantPage() {
                   <button
                     key={index}
                     onClick={() => handleButtonClick(buttonText)}
-                    className="px-3 py-1.5 text-xs font-medium text-purple-600 bg-white border border-purple-600 rounded-md hover:bg-purple-50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="px-2 lg:px-3 py-1 lg:py-1.5 text-xs font-medium text-purple-600 bg-white border border-purple-600 rounded-md hover:bg-purple-50 focus:outline-none focus:ring-2 focus:ring-purple-500"
                   >
                     {buttonText}
                   </button>
@@ -350,7 +341,7 @@ export default function AssistantPage() {
           </div>
 
           {/* Chat Input */}
-          <div className="border-t border-gray-200 p-4">
+          <div className="border-t border-gray-200 p-3 lg:p-4">
             <div className="flex space-x-2">
               <Input
                 placeholder={isLoading ? "Processing..." : "Type your message..."}
@@ -358,13 +349,13 @@ export default function AssistantPage() {
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
                 disabled={isLoading}
-                className="flex-1"
+                className="flex-1 text-sm lg:text-base"
               />
               <Button
                 onClick={() => handleSendMessage()}
                 disabled={!inputMessage.trim() || isLoading}
                 size="sm"
-                className="min-w-[40px]"
+                className="min-w-[40px] lg:min-w-[44px]"
               >
                 {isLoading ? (
                   <Loading size="sm" className="text-white" />

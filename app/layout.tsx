@@ -1,13 +1,10 @@
 import "styles/tailwind.css"
-import "@radix-ui/themes/styles.css"
-
-import { Theme } from "@radix-ui/themes"
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <Theme>{children}</Theme>
+        {children}
       </body>
     </html>
   )

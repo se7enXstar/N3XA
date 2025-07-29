@@ -16,8 +16,6 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json() as TicketRequest
     
-    console.log('Creating ticket with data:', body)
-    
     // Validate required fields
     if (!body.title || !body.category || !body.description || !body.email) {
       console.error('Missing required fields:', { title: !!body.title, category: !!body.category, description: !!body.description, email: !!body.email })
@@ -39,7 +37,6 @@ export async function POST(request: NextRequest) {
       }
     })
     
-    console.log('Ticket created successfully:', ticket.id)
     return NextResponse.json({ 
       success: true, 
       ticketId: ticket.id 

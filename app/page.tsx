@@ -30,28 +30,28 @@ export default function HomePage() {
       <main className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 pt-24">
         <div className="max-w-4xl mx-auto text-center">
           {/* Main Headline */}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6">
             <span className="text-white">AI Support</span>
             <span className="text-purple-200"> Agent</span>
           </h1>
           
           {/* Sub-headline */}
-          <p className="text-xl md:text-2xl text-purple-200 mb-12 max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl md:text-2xl text-purple-200 mb-8 sm:mb-12 max-w-3xl mx-auto px-4">
             Intelligent customer support powered by AI
           </p>
 
           {/* Call-to-Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4">
             {/* Manage Tickets Button */}
-            <div className="flex flex-col items-center">
-                                 <Link href="/manage">
+            <div className="flex flex-col items-center w-full sm:w-auto">
+              <Link href="/manage" className="w-full sm:w-auto">
                 <Button 
                   size="lg" 
-                  className="bg-purple-800 hover:bg-purple-700 text-white border border-purple-600 px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-200 hover:scale-105"
+                  className="w-full sm:w-auto bg-purple-800 hover:bg-purple-700 text-white border border-purple-600 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-lg transition-all duration-200 hover:scale-105"
                 >
                   Manage Tickets
                   <svg 
-                    className="ml-2 w-5 h-5" 
+                    className="ml-2 w-4 h-4 sm:w-5 sm:h-5" 
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
@@ -65,21 +65,21 @@ export default function HomePage() {
                   </svg>
                 </Button>
               </Link>
-              <p className="text-purple-200 text-sm mt-2 max-w-xs">
+              <p className="text-purple-200 text-xs sm:text-sm mt-2 max-w-xs text-center">
                 Access and manage support tickets created by users
               </p>
             </div>
 
             {/* Create Ticket Button */}
-            <div className="flex flex-col items-center">
-              <Link href="/assistant">
+            <div className="flex flex-col items-center w-full sm:w-auto">
+              <Link href="/assistant" className="w-full sm:w-auto">
                 <Button 
                   size="lg" 
-                  className="bg-purple-800 hover:bg-purple-700 text-white border border-purple-600 px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-200 hover:scale-105"
+                  className="w-full sm:w-auto bg-purple-800 hover:bg-purple-700 text-white border border-purple-600 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold rounded-lg transition-all duration-200 hover:scale-105"
                 >
                   Create Ticket
                   <svg 
-                    className="ml-2 w-5 h-5" 
+                    className="ml-2 w-4 h-4 sm:w-5 sm:h-5" 
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
@@ -93,7 +93,7 @@ export default function HomePage() {
                   </svg>
                 </Button>
               </Link>
-              <p className="text-purple-200 text-sm mt-2 max-w-xs">
+              <p className="text-purple-200 text-xs sm:text-sm mt-2 max-w-xs text-center">
                 Start a conversation with our AI assistant to create a support ticket
               </p>
             </div>

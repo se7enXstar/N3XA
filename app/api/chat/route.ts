@@ -55,15 +55,6 @@ export async function POST(request: NextRequest) {
     const isFirstUserMessage = userMessages.length === 1
     const lastAssistantMessage = assistantMessages[assistantMessages.length - 1]
 
-    console.log('API Debug:', {
-      message,
-      userMessagesCount: userMessages.length,
-      assistantMessagesCount: assistantMessages.length,
-      isFirstUserMessage,
-      lastAssistantMessageContent: lastAssistantMessage?.content?.substring(0, 100),
-      ticketData
-    })
-
     let response: ChatResponse = {
       message: "",
       ticketData: {},
@@ -71,18 +62,8 @@ export async function POST(request: NextRequest) {
       buttons: []
     }
 
-    console.log('=== API CALL START ===')
-    console.log('Processing message:', message)
-    console.log('Last assistant message:', lastAssistantMessage?.content)
-    console.log('Ticket data:', ticketData)
-    console.log('=== API CALL END ===')
-
     // Handle "No" response first - this should catch all "No" responses
-    console.log('Checking "No" condition:', message.toLowerCase() === "no", 'Has email:', !!ticketData.email, 'Email is not "No":', ticketData.email !== "No", 'Actual email:', ticketData.email)
     if (message.toLowerCase() === "no" && ticketData.email && ticketData.email !== "No") {
-      console.log('Handling "No" response with email:', ticketData.email)
-      console.log('Saving ticket data:', ticketData)
-      
       try {
         const saveResponse = await fetch(`${baseUrl}/api/tickets`, {
           method: 'POST',
@@ -99,7 +80,6 @@ export async function POST(request: NextRequest) {
         }
 
         const saveResult = await saveResponse.json()
-        console.log('Ticket saved successfully:', saveResult)
 
         response = {
           message: `✅ Got it — your support ticket has been submitted!\nA technician will contact you at **${ticketData.email}** soon.\n\nNeed anything else? Type **"start"** to open a new ticket.`,
@@ -115,7 +95,6 @@ export async function POST(request: NextRequest) {
         }
       }
     } else if (message.toLowerCase() === "yes" && ticketData.email && ticketData.email !== "No") {
-      console.log('Handling "Yes" response')
       response = {
         message: "Sure — please provide the information you'd like to add.",
         showButtons: false
@@ -183,8 +162,6 @@ export async function POST(request: NextRequest) {
 
         const ticketSummary = `**Title**: ${ticketData.title}\n**Category**: ${ticketData.category}\n**Description**: ${ticketData.description}\n**Email**: ${email}\n**Summary**: _${summary}_`
 
-        console.log('Setting email in ticketData:', email)
-        console.log('Sending response with buttons:', { showButtons: true, buttons: ["Yes", "No"] })
         response = {
           message: `Perfect — we'll contact you at **${email}**.\n\nHere's a summary of your ticket so far:\n${ticketSummary}\n\nIs there **any information you'd like to add** before we submit this ticket?`,
           ticketData: { email, summary },
@@ -205,10 +182,7 @@ export async function POST(request: NextRequest) {
       }
     } else if ((lastAssistantMessage?.content.includes("add") || lastAssistantMessage?.content.includes("information") || lastAssistantMessage?.content.includes("submit") || lastAssistantMessage?.content.includes("summary")) && (message.toLowerCase() === "yes" || message.toLowerCase() === "no")) {
       // User clicked Yes/No buttons - this should not be reached since we handle Yes/No at the top
-      console.log('Processing Yes/No button click. Message:', message, 'TicketData:', ticketData, 'LastAssistantMessage:', lastAssistantMessage?.content)
       if (message.toLowerCase() === "no") {
-        console.log('Saving ticket with data:', ticketData)
-        
         try {
           // Save ticket to database
           const saveResponse = await fetch(`${baseUrl}/api/tickets`, {
@@ -226,7 +200,6 @@ export async function POST(request: NextRequest) {
           }
 
           const saveResult = await saveResponse.json()
-          console.log('Ticket saved successfully:', saveResult)
 
           response = {
             message: `✅ Got it — your support ticket has been submitted!\nA technician will contact you at **${ticketData.email}** soon.\n\nNeed anything else? Type **"start"** to open a new ticket.`,
@@ -246,7 +219,7 @@ export async function POST(request: NextRequest) {
           showButtons: false
         }
       }
-        } else if (lastAssistantMessage?.content.includes("provide")) {
+    } else if (lastAssistantMessage?.content.includes("provide")) {
       // User provided additional info - update description and generate new summary
       const updatedDescription = `${ticketData.description}\n\nAdditional Information: ${message}`
       const updatedTicketData = { ...ticketData, description: updatedDescription, additionalInfo: message }
@@ -291,7 +264,6 @@ export async function POST(request: NextRequest) {
           }
 
           const saveResult = await saveResponse.json()
-          console.log('Ticket saved successfully:', saveResult)
           
           response = {
             message: `✅ Thanks for the additional information.\n\nHere's your updated ticket summary:\n${updatedTicketSummary}\n\nYour support ticket has been submitted!\nWe'll be in touch at **${ticketData.email}** as soon as possible.\n\nYou can type **"start"** to open a new ticket anytime.`,
@@ -332,10 +304,8 @@ export async function POST(request: NextRequest) {
 
     // Ensure we always have a response
     if (!response.message) {
-      console.log('No matching condition found. Message:', message, 'LastAssistantMessage:', lastAssistantMessage?.content)
       // Only show category selection if this is actually a new title input
       if (isFirstUserMessage || (!lastAssistantMessage?.content.includes("category") && !lastAssistantMessage?.content.includes("add") && !lastAssistantMessage?.content.includes("information") && !lastAssistantMessage?.content.includes("describe") && !lastAssistantMessage?.content.includes("email"))) {
-        console.log('Handling first user message as title:', message)
         response = {
           message: "Got it. What **category** does this issue fall under?\n\nPlease select a category:",
           ticketData: { title: message },

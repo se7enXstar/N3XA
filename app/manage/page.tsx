@@ -200,15 +200,15 @@ export default function ManagePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header currentPage="manage" />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pt-24">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Ticket Management</h1>
-          <p className="text-gray-600 mt-2">Manage and track support tickets</p>
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Ticket Management</h1>
+          <p className="text-gray-600 mt-2 text-sm sm:text-base">Manage and track support tickets</p>
         </div>
 
         {/* Search and Filter Section */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-6">
           <div className="flex flex-col sm:flex-row gap-4">
             {/* Search */}
             <div className="flex-1 relative">
@@ -217,7 +217,7 @@ export default function ManagePage() {
                 placeholder="Search tickets..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 text-sm sm:text-base"
               />
             </div>
 
@@ -226,10 +226,10 @@ export default function ManagePage() {
               <Button
                 variant="outline"
                 onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-                className="min-w-[200px] justify-between"
+                className="w-full sm:w-auto min-w-[200px] justify-between text-sm sm:text-base"
               >
-                <span>{selectedCategory}</span>
-                <ChevronDown className="w-4 h-4" />
+                <span className="truncate">{selectedCategory}</span>
+                <ChevronDown className="w-4 h-4 ml-2" />
               </Button>
 
               {showCategoryDropdown && (
@@ -240,7 +240,7 @@ export default function ManagePage() {
                         setSelectedCategory("All Categories")
                         setShowCategoryDropdown(false)
                       }}
-                      className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                      className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
                     >
                       All Categories
                     </button>
@@ -251,7 +251,7 @@ export default function ManagePage() {
                           setSelectedCategory(category.name)
                           setShowCategoryDropdown(false)
                         }}
-                        className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                        className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
                       >
                         {category.name}
                       </button>
@@ -266,75 +266,76 @@ export default function ManagePage() {
         {/* Tickets Table */}
         <Card>
           <CardHeader>
-            <CardTitle>Support Tickets</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">Support Tickets</CardTitle>
           </CardHeader>
           <CardContent>
             {currentTickets.length === 0 ? (
               <div className="text-center py-8">
-                <p className="text-gray-500">No tickets found</p>
+                <p className="text-gray-500 text-sm sm:text-base">No tickets found</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full">
-                                     <thead>
-                     <tr className="border-b border-gray-200">
-                       <th className="text-left py-3 px-4 font-semibold text-gray-900">Title</th>
-                       <th className="text-left py-3 px-4 font-semibold text-gray-900">Email</th>
-                       <th className="text-left py-3 px-4 font-semibold text-gray-900">Category</th>
-                       <th className="text-left py-3 px-4 font-semibold text-gray-900">Status</th>
-                       <th className="text-left py-3 px-4 font-semibold text-gray-900">Summary</th>
-                       <th className="text-left py-3 px-4 font-semibold text-gray-900">Actions</th>
-                     </tr>
-                   </thead>
+                {/* Desktop Table */}
+                <table className="w-full hidden lg:table">
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Title</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Email</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Category</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Status</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Summary</th>
+                      <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Actions</th>
+                    </tr>
+                  </thead>
                   <tbody>
                     {currentTickets.map((ticket) => (
                       <tr key={ticket.id} className="border-b border-gray-100 hover:bg-gray-50">
                         <td className="py-4 px-4">
                           <div>
-                            <div className="font-medium text-gray-900">{ticket.title}</div>
-                            <div className="text-sm text-gray-500 truncate max-w-xs">
+                            <div className="font-medium text-gray-900 text-sm">{ticket.title}</div>
+                            <div className="text-xs text-gray-500 truncate max-w-xs">
                               {ticket.description}
                             </div>
                           </div>
                         </td>
-                        <td className="py-4 px-4 text-sm text-gray-600">
+                        <td className="py-4 px-4 text-xs text-gray-600">
                           {ticket.email}
                         </td>
                         <td className="py-4 px-4">
-                          <Badge className={getCategoryColor(ticket.category)}>
+                          <Badge className={`text-xs ${getCategoryColor(ticket.category)}`}>
                             {ticket.category}
                           </Badge>
                         </td>
-                                                 <td className="py-4 px-4">
-                           <div className="flex items-center gap-2">
-                             <Badge className={getStatusColor(ticket.status)}>
-                               {ticket.status}
-                             </Badge>
-                             {ticket.status === 'open' && (
-                               <Button
-                                 size="sm"
-                                 variant="outline"
-                                 onClick={() => updateTicketStatus(ticket.id, 'solved')}
-                                 className="h-6 px-2"
-                               >
-                                 <CheckCircle className="w-3 h-3 mr-1" />
-                                 Solve
-                               </Button>
-                             )}
-                           </div>
-                         </td>
-                         <td className="py-4 px-4">
-                           <div className="text-sm text-gray-600 max-w-xs">
-                             {ticket.summary ? (
-                               <div className="truncate" title={ticket.summary}>
-                                 {ticket.summary}
-                               </div>
-                             ) : (
-                               <span className="text-gray-400 italic">No summary</span>
-                             )}
-                           </div>
-                         </td>
-                         <td className="py-4 px-4">
+                        <td className="py-4 px-4">
+                          <div className="flex items-center gap-2">
+                            <Badge className={`text-xs ${getStatusColor(ticket.status)}`}>
+                              {ticket.status}
+                            </Badge>
+                            {ticket.status === 'open' && (
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => updateTicketStatus(ticket.id, 'solved')}
+                                className="h-6 px-2 text-xs"
+                              >
+                                <CheckCircle className="w-3 h-3 mr-1" />
+                                Solve
+                              </Button>
+                            )}
+                          </div>
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="text-xs text-gray-600 max-w-xs">
+                            {ticket.summary ? (
+                              <div className="truncate" title={ticket.summary}>
+                                {ticket.summary}
+                              </div>
+                            ) : (
+                              <span className="text-gray-400 italic">No summary</span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="py-4 px-4">
                           <div className="flex items-center gap-2">
                             <Button
                               size="sm"
@@ -343,6 +344,7 @@ export default function ManagePage() {
                                 setEditingTicket(ticket)
                                 setShowEditModal(true)
                               }}
+                              className="h-8 w-8 p-0"
                             >
                               <Eye className="w-4 h-4" />
                             </Button>
@@ -353,6 +355,7 @@ export default function ManagePage() {
                                 setEditingTicket(ticket)
                                 setShowEditModal(true)
                               }}
+                              className="h-8 w-8 p-0"
                             >
                               <Edit className="w-4 h-4" />
                             </Button>
@@ -360,7 +363,7 @@ export default function ManagePage() {
                               size="sm"
                               variant="outline"
                               onClick={() => deleteTicket(ticket.id)}
-                              className="text-red-600 hover:text-red-700"
+                              className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
                             >
                               <Trash2 className="w-4 h-4" />
                             </Button>
@@ -370,13 +373,93 @@ export default function ManagePage() {
                     ))}
                   </tbody>
                 </table>
+
+                {/* Mobile Cards */}
+                <div className="lg:hidden space-y-4">
+                  {currentTickets.map((ticket) => (
+                    <div key={ticket.id} className="bg-white border border-gray-200 rounded-lg p-4 space-y-3">
+                      <div className="flex justify-between items-start">
+                        <div className="flex-1">
+                          <h3 className="font-medium text-gray-900 text-sm">{ticket.title}</h3>
+                          <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                            {ticket.description}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-1 ml-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              setEditingTicket(ticket)
+                              setShowEditModal(true)
+                            }}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              setEditingTicket(ticket)
+                              setShowEditModal(true)
+                            }}
+                            className="h-8 w-8 p-0"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => deleteTicket(ticket.id)}
+                            className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                      
+                      <div className="flex flex-wrap items-center gap-2 text-xs">
+                        <div className="flex items-center gap-1">
+                          <span className="text-gray-500">Email:</span>
+                          <span className="text-gray-700">{ticket.email}</span>
+                        </div>
+                        <Badge className={getCategoryColor(ticket.category)}>
+                          {ticket.category}
+                        </Badge>
+                        <div className="flex items-center gap-1">
+                          <Badge className={getStatusColor(ticket.status)}>
+                            {ticket.status}
+                          </Badge>
+                          {ticket.status === 'open' && (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => updateTicketStatus(ticket.id, 'solved')}
+                              className="h-6 px-2 text-xs"
+                            >
+                              <CheckCircle className="w-3 h-3 mr-1" />
+                              Solve
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                      
+                      {ticket.summary && (
+                        <div className="text-xs text-gray-600">
+                          <span className="font-medium">Summary:</span> {ticket.summary}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-between mt-6">
-                <div className="text-sm text-gray-600">
+              <div className="flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
+                <div className="text-xs sm:text-sm text-gray-600 text-center sm:text-left">
                   Showing {startIndex + 1} to {Math.min(endIndex, filteredTickets.length)} of {filteredTickets.length} tickets
                 </div>
                 <div className="flex items-center gap-2">
@@ -385,11 +468,12 @@ export default function ManagePage() {
                     size="sm"
                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
+                    className="text-xs"
                   >
                     <ChevronLeft className="w-4 h-4" />
-                    Previous
+                    <span className="hidden sm:inline">Previous</span>
                   </Button>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-xs sm:text-sm text-gray-600">
                     Page {currentPage} of {totalPages}
                   </span>
                   <Button
@@ -397,8 +481,9 @@ export default function ManagePage() {
                     size="sm"
                     onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}
+                    className="text-xs"
                   >
-                    Next
+                    <span className="hidden sm:inline">Next</span>
                     <ChevronRight className="w-4 h-4" />
                   </Button>
                 </div>
@@ -410,10 +495,10 @@ export default function ManagePage() {
 
       {/* Edit/View Modal */}
       {showEditModal && editingTicket && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-4 sm:p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Edit Ticket</h2>
+              <h2 className="text-lg sm:text-xl font-semibold">Edit Ticket</h2>
               <Button
                 variant="outline"
                 size="sm"
@@ -421,6 +506,7 @@ export default function ManagePage() {
                   setShowEditModal(false)
                   setEditingTicket(null)
                 }}
+                className="h-8 w-8 p-0"
               >
                 <XCircle className="w-4 h-4" />
               </Button>
@@ -432,6 +518,7 @@ export default function ManagePage() {
                 <Input
                   value={editingTicket.title}
                   onChange={(e) => setEditingTicket({ ...editingTicket, title: e.target.value })}
+                  className="text-sm sm:text-base"
                 />
               </div>
 
@@ -440,7 +527,7 @@ export default function ManagePage() {
                 <textarea
                   value={editingTicket.description}
                   onChange={(e) => setEditingTicket({ ...editingTicket, description: e.target.value })}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 min-h-[100px]"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 min-h-[80px] sm:min-h-[100px] text-sm sm:text-base"
                 />
               </div>
 
@@ -449,7 +536,7 @@ export default function ManagePage() {
                 <select
                   value={editingTicket.category}
                   onChange={(e) => setEditingTicket({ ...editingTicket, category: e.target.value })}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base"
                 >
                   {categories.map((category) => (
                     <option key={category.id} value={category.name}>
@@ -464,7 +551,7 @@ export default function ManagePage() {
                 <select
                   value={editingTicket.status}
                   onChange={(e) => setEditingTicket({ ...editingTicket, status: e.target.value })}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base"
                 >
                   <option value="open">Open</option>
                   <option value="solved">Solved</option>
@@ -477,6 +564,7 @@ export default function ManagePage() {
                 <Input
                   value={editingTicket.email}
                   onChange={(e) => setEditingTicket({ ...editingTicket, email: e.target.value })}
+                  className="text-sm sm:text-base"
                 />
               </div>
 
@@ -486,7 +574,7 @@ export default function ManagePage() {
                   <textarea
                     value={editingTicket.additionalInfo}
                     onChange={(e) => setEditingTicket({ ...editingTicket, additionalInfo: e.target.value })}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 min-h-[80px]"
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 min-h-[60px] sm:min-h-[80px] text-sm sm:text-base"
                   />
                 </div>
               )}
@@ -497,23 +585,25 @@ export default function ManagePage() {
                   <textarea
                     value={editingTicket.summary}
                     onChange={(e) => setEditingTicket({ ...editingTicket, summary: e.target.value })}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 min-h-[80px]"
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 min-h-[60px] sm:min-h-[80px] text-sm sm:text-base"
                   />
                 </div>
               )}
 
-              <div className="flex justify-end gap-2 pt-4">
+              <div className="flex flex-col sm:flex-row justify-end gap-2 pt-4">
                 <Button
                   variant="outline"
                   onClick={() => {
                     setShowEditModal(false)
                     setEditingTicket(null)
                   }}
+                  className="w-full sm:w-auto text-sm"
                 >
                   Cancel
                 </Button>
                 <Button
                   onClick={() => updateTicket(editingTicket)}
+                  className="w-full sm:w-auto text-sm"
                 >
                   Save Changes
                 </Button>

@@ -1,27 +1,22 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  rewrites: async () => {
+  // Disable telemetry to avoid OpenTelemetry issues
+  telemetry: false,
+  
+  // Configure rewrites for development
+  async rewrites() {
     return [
       {
         source: "/llmsev/:path*",
-        destination:
-          process.env.NODE_ENV === "development"
-            ? "http://127.0.0.1:8000/llmsev/:path*"
-            : "/llmsev/",
+        destination: "http://127.0.0.1:8000/llmsev/:path*",
       },
       {
         source: "/docs",
-        destination:
-          process.env.NODE_ENV === "development"
-            ? "http://127.0.0.1:8000/docs"
-            : "/llmsev/docs",
+        destination: "http://127.0.0.1:8000/docs",
       },
       {
         source: "/openapi.json",
-        destination:
-          process.env.NODE_ENV === "development"
-            ? "http://127.0.0.1:8000/openapi.json"
-            : "/llmsev/openapi.json",
+        destination: "http://127.0.0.1:8000/openapi.json",
       },
     ];
   },
