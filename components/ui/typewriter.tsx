@@ -9,7 +9,7 @@ interface TypewriterProps {
 
 export function Typewriter({ 
   text, 
-  speed = 100, 
+  speed = 10, 
   className = ""
 }: TypewriterProps) {
   return (

@@ -8,7 +8,7 @@ interface HTMLTypewriterProps {
 
 export function HTMLTypewriter({ 
   html, 
-  speed = 100, 
+  speed = 10, 
   className = ""
 }: HTMLTypewriterProps) {
   const [displayedHTML, setDisplayedHTML] = useState("")

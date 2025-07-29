@@ -304,7 +304,7 @@ export default function AssistantPage() {
                     <HTMLTypewriter 
                       html={message.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                         .replace(/\n/g, '<br>')}
-                      speed={100}
+                      speed={10}
                       className="text-xs lg:text-sm"
                     />
                   ) : (
