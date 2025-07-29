@@ -6,6 +6,7 @@
     "serve-langchain": "cd llmsev && langchain serve",
     "next-dev": "cross-env FORCE_COLOR=1 next dev",
     "dev": "concurrently \"npm run next-dev\" \"npm run serve-langchain\"",
+    "prebuild": "node scripts/check-env.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
