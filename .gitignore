@@ -14,7 +14,9 @@ out/
 build
 
 # UI
-./cursor/
+.cursor/
+.cursor/*
+!.cursor/rules/
 
 # misc
 .DS_Store
@@ -27,6 +29,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
+.env
 .env.local
 .env.development.local
 .env.test.local

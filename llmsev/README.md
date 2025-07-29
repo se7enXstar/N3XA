@@ -1,79 +1,38 @@
-# llmsev
+# N3XA AI Support Assistant - Python Backend
 
-## Installation
+This is the Python backend for the N3XA AI Support Assistant, built with FastAPI and Langchain.
 
-Install the LangChain CLI if you haven't yet
+## Setup
 
-```bash
-pip install -U langchain-cli
-```
+1. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-## Adding packages
+2. **Set up environment variables:**
+   Create a `.env` file in the `llmsev` directory with:
+   ```
+   OPENAI_API_KEY=your_openai_api_key_here
+   ```
 
-```bash
-# adding packages from 
-# https://github.com/langchain-ai/langchain/tree/master/templates
-langchain app add $PROJECT_NAME
+3. **Run the server:**
+   ```bash
+   python app/main.py
+   ```
+   
+   Or with uvicorn directly:
+   ```bash
+   uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+   ```
 
-# adding custom GitHub repo packages
-langchain app add --repo $OWNER/$REPO
-# or with whole git string (supports other git providers):
-# langchain app add git+https://github.com/hwchase17/chain-of-verification
+## API Endpoints
 
-# with a custom api mount point (defaults to `/{package_name}`)
-langchain app add $PROJECT_NAME --api_path=/my/custom/path/rag
-```
+- `GET /` - Health check
+- `POST /generate-summary` - Generate AI summary for support tickets
+- `GET /health` - Health check endpoint
 
-Note: you remove packages by their api path
+## Features
 
-```bash
-langchain app remove my/custom/path/rag
-```
-
-## Setup LangSmith (Optional)
-LangSmith will help us trace, monitor and debug LangChain applications. 
-You can sign up for LangSmith [here](https://smith.langchain.com/). 
-If you don't have access, you can skip this section
-
-
-```shell
-export LANGCHAIN_TRACING_V2=true
-export LANGCHAIN_API_KEY=<your-api-key>
-export LANGCHAIN_PROJECT=<your-project>  # if not specified, defaults to "default"
-```
-
-## Launch LangServe
-
-```bash
-langchain serve
-```
-
-## Running in Docker
-
-This project folder includes a Dockerfile that allows you to easily build and host your LangServe app.
-
-### Building the Image
-
-To build the image, you simply:
-
-```shell
-docker build . -t my-langserve-app
-```
-
-If you tag your image with something other than `my-langserve-app`,
-note it for use in the next step.
-
-### Running the Image Locally
-
-To run the image, you'll need to include any environment variables
-necessary for your application.
-
-In the below example, we inject the `OPENAI_API_KEY` environment
-variable with the value set in my local environment
-(`$OPENAI_API_KEY`)
-
-We also expose port 8080 with the `-p 8080:8080` option.
-
-```shell
-docker run -e OPENAI_API_KEY=$OPENAI_API_KEY -p 8080:8080 my-langserve-app
-```
+- **AI Summary Generation**: Uses OpenAI GPT-3.5-turbo to generate concise summaries of support tickets
+- **CORS Support**: Configured to work with the Next.js frontend
+- **Error Handling**: Proper error responses and logging
