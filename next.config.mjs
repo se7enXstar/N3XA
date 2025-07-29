@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Disable telemetry to avoid OpenTelemetry issues
-  telemetry: false,
-  
   // Configure rewrites for development
   async rewrites() {
     return [
