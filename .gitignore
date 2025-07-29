@@ -13,10 +13,6 @@ coverage
 out/
 build
 
-# UI
-.cursor/
-.cursor/*
-!.cursor/rules/
 
 # misc
 .DS_Store
